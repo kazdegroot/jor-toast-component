@@ -7,13 +7,18 @@ import styles from './ToastShelf.module.css';
 function ToastShelf() {
   const { toasts, dismissToast } = useToastContext();
   return (
-    <ol className={styles.wrapper}>
-      {toasts.map(({ id, message, variant }) => (
-        <li key={id} className={styles.toastWrapper}>
-          <Toast onDismiss={() => dismissToast(id)} variant={variant}>{message}</Toast>
-        </li>
-      ))}
-    </ol>
+    <ol className={styles.wrapper}
+      role="region"
+      aria-live="assertive"
+      aria-label="Notification">
+      {
+        toasts.map(({ id, message, variant }) => (
+          <li key={id} className={styles.toastWrapper}>
+            <Toast onDismiss={() => dismissToast(id)} variant={variant}>{message}</Toast>
+          </li>
+        ))
+      }
+    </ol >
   );
 }
 
