@@ -18,7 +18,7 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
-      {showToast && <Toast variant={variant} message={message} onDismiss={() => setShowToast(false)} />}
+      {showToast && <Toast variant={variant} onDismiss={() => setShowToast(false)}>{message}</Toast>}
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
           <label
