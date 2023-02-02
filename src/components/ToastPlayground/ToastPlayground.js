@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 
 import Button from '../Button';
 
@@ -7,6 +8,8 @@ import styles from './ToastPlayground.module.css';
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
+  const [message, setMessage] = useState('');
+  const [variant, setVariant] = useState(VARIANT_OPTIONS[0]);
   return (
     <div className={styles.wrapper}>
       <header>
@@ -24,7 +27,7 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" className={styles.messageInput} />
+            <textarea id="message" className={styles.messageInput} value={message} onChange={e => { setMessage(e.target.value) }} />
           </div>
         </div>
 
@@ -33,17 +36,7 @@ function ToastPlayground() {
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
           >
-            <label htmlFor="variant-notice">
-              <input
-                id="variant-notice"
-                type="radio"
-                name="variant"
-                value="notice"
-              />
-              notice
-            </label>
-
-            {/* TODO Other Variant radio buttons here */}
+            <RadioSet options={VARIANT_OPTIONS} name="variant" value={variant} onChange={setVariant} />
           </div>
         </div>
 
@@ -52,12 +45,31 @@ function ToastPlayground() {
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
           >
-            <Button>Pop Toast!</Button>
+            <Button onClick={() => alert(`${variant}: ${message}`)}>Pop Toast!</Button>
           </div>
         </div>
       </div>
     </div>
   );
+}
+
+function RadioSet({ options, name, id = '', value, onChange }) {
+  const idBase = id || name;
+  return <>
+    {options.map(option => (
+      <label key={option} htmlFor={`${idBase}-${option}`}>
+        <input
+          id={`${idBase}-${option}`}
+          type="radio"
+          name={name}
+          value={option}
+          checked={option === value}
+          onChange={e => onChange(e.target.value)}
+        />
+        {option}
+      </label>
+    ))}
+  </>
 }
 
 export default ToastPlayground;
